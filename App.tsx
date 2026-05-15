@@ -27,7 +27,22 @@ import {
   Search,
   Box,
   BarChart2,
-  PieChart as PieIcon
+  PieChart as PieIcon,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  ChevronRight,
+  Bell,
+  ChevronDown,
+  Calendar,
+  Info,
+  RefreshCw,
+  List,
+  Clipboard,
+  ArrowDown,
+  Upload,
+  FileText,
+  ChevronLeft
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend, LabelList } from 'recharts';
 
@@ -58,6 +73,8 @@ const COLORS = {
 const LoginPage = ({ onLogin }: { onLogin: () => void }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -78,92 +95,130 @@ const LoginPage = ({ onLogin }: { onLogin: () => void }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 relative overflow-hidden">
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-red-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.05),transparent_70%)]"></div>
-
-      <div className="w-full max-w-md z-10">
-        <div className="bg-white rounded-[40px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden relative">
-          <div className="h-2 w-full flex">
-            <div className="h-full flex-1 bg-blue-600"></div>
-            <div className="h-full flex-1 bg-red-600"></div>
+    <div className="min-h-screen flex font-sans bg-white overflow-hidden">
+      {/* Left Side: Login Form */}
+      <div className="w-full lg:w-[40%] flex flex-col justify-between px-8 py-8 lg:px-16 lg:py-12 relative z-10 bg-white shadow-[20px_0_40px_-20px_rgba(0,0,0,0.05)]">
+        <div>
+          <div className="flex items-center gap-2 mb-12">
+            <div className="relative">
+               <img src={LOGO_URL} alt="Logo" className="w-8 h-8 object-contain" />
+            </div>
+            <span className="font-bold text-xl tracking-tight text-slate-900">
+              ATK<span className="text-[#E53935]">GIAT</span>
+            </span>
           </div>
 
-          <div className="p-12">
-            <div className="flex flex-col items-center mb-10 text-center">
-              <div className="relative mb-6">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-red-600 rounded-3xl blur-lg opacity-20 animate-pulse"></div>
-                <div className="relative w-24 h-24 bg-white rounded-3xl shadow-xl p-4 border border-slate-50 flex items-center justify-center">
-                  <img src={LOGO_URL} alt="Logo" className="w-full h-full object-contain" />
-                </div>
-              </div>
-              <h1 className="text-4xl font-black tracking-tighter leading-none mb-1">
-                <span className="bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">ATK GIAT</span>
-              </h1>
-              <div className="h-1 w-12 bg-gradient-to-r from-blue-600 to-red-600 rounded-full mx-auto mt-2"></div>
-            </div>
+          <div className="max-w-md mt-10">
+            <h1 className="text-3xl lg:text-[2.5rem] font-bold text-slate-900 mb-2 tracking-tight leading-tight">
+              Selamat Datang di<br/>ATK <span className="text-[#E53935]">GIAT</span>
+            </h1>
+            <p className="text-sm text-slate-500 mb-10">Sistem Inventaris dan Transaksi Barang Kantor</p>
 
             <form onSubmit={handleLogin} className="space-y-6">
               {error && (
-                <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-sm font-bold animate-in slide-in-from-top-2">
+                <div className="p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 text-red-600 text-sm font-semibold animate-in slide-in-from-top-2">
                   <AlertCircle size={18} />
                   {error}
                 </div>
               )}
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Username</label>
+              <div className="space-y-4">
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-blue-600 transition-colors">
-                    <User size={20} />
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#E53935] transition-colors">
+                    <User size={18} />
                   </div>
                   <input 
                     type="text" 
                     required 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-slate-700 placeholder:text-slate-300"
-                    placeholder="Masukkan Username"
+                    className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-[10px] focus:ring-4 focus:ring-red-500/10 focus:border-[#E53935] outline-none transition-all text-sm text-slate-900 placeholder:text-slate-400"
+                    placeholder="Username / Email"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Password</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-red-600 transition-colors">
-                    <Lock size={20} />
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#E53935] transition-colors">
+                    <Lock size={18} />
                   </div>
                   <input 
-                    type="password" 
+                    type={showPassword ? "text" : "password"} 
                     required 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl focus:bg-white focus:border-red-600 outline-none transition-all font-bold text-slate-700 placeholder:text-slate-300"
-                    placeholder="••••••••"
+                    className="w-full pl-11 pr-12 py-3.5 bg-white border border-slate-200 rounded-[10px] focus:ring-4 focus:ring-red-500/10 focus:border-[#E53935] outline-none transition-all text-sm text-slate-900 placeholder:text-slate-400"
+                    placeholder="Password"
                   />
+                  <button 
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-2">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className="relative flex items-center justify-center">
+                    <input 
+                      type="checkbox" 
+                      className="peer sr-only"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <div className="w-4 h-4 border border-slate-300 rounded peer-checked:bg-[#E53935] peer-checked:border-[#E53935] transition-colors flex items-center justify-center group-hover:border-red-400">
+                       {rememberMe && <div className="w-2 h-2 bg-white rounded-sm"></div>}
+                    </div>
+                  </div>
+                  <span className="text-xs text-slate-700">Ingat saya</span>
+                </label>
+                <a href="#" className="text-xs font-semibold text-[#E53935] hover:text-red-700 transition-colors">Lupa Password?</a>
               </div>
 
               <button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 to-red-600 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_20px_40px_-12px_rgba(37,99,235,0.3)] disabled:opacity-50 flex items-center justify-center gap-3 mt-4 active:scale-[0.98]"
+                className="w-full bg-[#E53935] text-white py-3.5 rounded-[10px] font-semibold text-sm hover:bg-[#D32F2F] transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-2 active:scale-[0.99] shadow-md shadow-red-600/20"
               >
-                {isLoading ? <Loader2 className="animate-spin" size={24} /> : 'Masuk Akun'}
+                {isLoading ? <Loader2 className="animate-spin" size={18} /> : 'Masuk ke Dashboard'}
+                {!isLoading && <ChevronRight size={18} />}
               </button>
             </form>
           </div>
-          
-          <div className="bg-slate-50/50 p-6 text-center border-t border-slate-100">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Powered by OneDev Team</p>
-          </div>
         </div>
-        
-        <p className="mt-8 text-center text-slate-400 text-xs font-medium">
-          Hak Cipta &copy; {new Date().getFullYear()} ATK GIAT. Seluruh Hak Dilindungi.
-        </p>
+
+        <div className="mt-16 space-y-4">
+          <div className="flex items-center gap-2 text-[11px] text-slate-400">
+             <ShieldCheck size={14} className="text-slate-400" />
+             <span>Aman dan terenkripsi. Data Anda terlindungi.</span>
+          </div>
+          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+            &copy; {new Date().getFullYear()} ATK GIAT. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side: Illustration */}
+      <div className="hidden lg:flex flex-1 relative bg-slate-50 items-center justify-center p-12">
+         {/* Decorative red curve */}
+         <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none">
+            <svg viewBox="0 0 1000 1000" className="absolute -top-[10%] -right-[10%] w-[120%] h-[120%] text-red-100 opacity-50" preserveAspectRatio="none">
+              <path fill="currentColor" d="M0,0 L1000,0 L1000,1000 C600,800 800,200 0,0 Z"></path>
+            </svg>
+            <svg viewBox="0 0 1000 1000" className="absolute -bottom-[10%] -left-[10%] w-[120%] h-[120%] text-red-100 opacity-30 transform rotate-180" preserveAspectRatio="none">
+              <path fill="currentColor" d="M0,0 L1000,0 L1000,1000 C600,800 800,200 0,0 Z"></path>
+            </svg>
+         </div>
+
+         <div className="w-full max-w-4xl relative z-10 flex justify-center">
+            <img 
+               src="/assets/warehouse_illustration.png" 
+               alt="Warehouse Management" 
+               className="w-full h-auto max-h-[85vh] object-contain drop-shadow-2xl mix-blend-multiply" 
+            />
+         </div>
       </div>
     </div>
   );
@@ -183,41 +238,56 @@ const Sidebar = ({ isOpen, toggle, onLogoutClick }: { isOpen: boolean; toggle: (
   return (
     <>
       <div 
-        className={`fixed inset-0 z-20 bg-black/60 transition-opacity lg:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} 
+        className={`fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-sm transition-opacity lg:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} 
         onClick={toggle} 
       />
-      <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-slate-950 text-white transform transition-transform lg:translate-x-0 flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center gap-3 p-6 border-b border-slate-800/50">
-          <img src={LOGO_URL} alt="Logo" className="w-8 h-8 rounded shadow-lg shadow-blue-500/20" />
-          <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-red-400 bg-clip-text text-transparent">ATK GIAT</h1>
-          <button onClick={toggle} className="lg:hidden ml-auto"><X size={24} /></button>
-        </div>
-        <nav className="mt-6 px-4 space-y-2 flex-1">
-          {menuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => { if(window.innerWidth < 1024) toggle() }}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                (location.pathname === item.path) 
-                  ? `${COLORS.sidebarItemActive} text-white shadow-lg shadow-blue-900/40` 
-                  : 'text-slate-400 hover:bg-slate-900 hover:text-white'
-              }`}
-            >
-              <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          ))}
-        </nav>
+      <div className={`fixed inset-y-0 left-0 z-30 w-[260px] bg-[#FAF9F9] border-r border-slate-200 transform transition-transform duration-300 lg:translate-x-0 flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className="flex items-center gap-3 px-6 py-8">
+            <div className="w-10 h-10 bg-[#FCE8E8] rounded-xl flex items-center justify-center shrink-0">
+               <img src={LOGO_URL} alt="Logo" className="w-6 h-6 object-contain" />
+            </div>
+            <div className="flex flex-col">
+               <h1 className="text-[1.1rem] font-bold tracking-tight text-[#991B1B] leading-none mb-1">GIAT</h1>
+               <span className="text-[10px] text-slate-500 font-medium leading-none">Warehouse Management</span>
+            </div>
+            <button onClick={toggle} className="lg:hidden ml-auto text-slate-400 hover:text-slate-600 transition-colors"><X size={20} /></button>
+          </div>
 
-        <div className="p-4 border-t border-slate-800/50">
-          <button 
-            onClick={onLogoutClick}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-red-600/10 hover:text-red-500 transition-all font-medium"
-          >
-            <LogOut size={20} />
-            <span>Keluar Akun</span>
-          </button>
+          {/* Navigation */}
+          <nav className="px-4 space-y-2 flex-1 mt-2">
+            {menuItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => { if(window.innerWidth < 1024) toggle() }}
+                  className={`flex items-center space-x-3 px-4 py-3.5 rounded-[12px] transition-all duration-200 font-semibold text-[13px] ${
+                    isActive
+                      ? 'bg-[#FCE8E8] text-[#991B1B]' 
+                      : 'text-slate-500 hover:bg-slate-100/50 hover:text-slate-900'
+                  }`}
+                >
+                  <item.icon size={18} className={isActive ? "text-[#991B1B]" : "text-slate-400"} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Logout */}
+          <div className="p-4">
+            <div className="w-full h-px bg-slate-200 mb-4"></div>
+            <button 
+              onClick={onLogoutClick}
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-[12px] text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold text-[13px]"
+            >
+              <LogOut size={18} className="text-slate-400" />
+              <span>Keluar Akun</span>
+            </button>
+          </div>
         </div>
       </div>
     </>
@@ -271,7 +341,6 @@ const Dashboard = ({ master, logs }: { master: MasterBarang[], logs: LogTransaks
   const lowStockItems = master.filter(item => item.StokSaatIni <= item.MinimumStok);
   const totalValue = master.length;
 
-  // Data untuk Grafik Distribusi Kategori (Fokus: Alat Tulis, Kertas, Arsip)
   const categoryChartData = useMemo(() => {
     const targetCategories = ['Alat Tulis', 'Kertas', 'Arsip'];
     const counts: Record<string, number> = {
@@ -297,12 +366,11 @@ const Dashboard = ({ master, logs }: { master: MasterBarang[], logs: LogTransaks
       .sort((a, b) => b.total - a.total);
   }, [master]);
 
-  // Data untuk Grafik Stok Kritis (Top 5 Paling Kritis)
   const criticalChartData = useMemo(() => {
     return lowStockItems
       .slice(0, 5)
       .map(item => ({
-        name: item.NamaBarang.length > 15 ? item.NamaBarang.substring(0, 12) + '...' : item.NamaBarang,
+        name: item.NamaBarang.length > 18 ? item.NamaBarang.substring(0, 18) + '...' : item.NamaBarang,
         fullTitle: item.NamaBarang,
         current: item.StokSaatIni,
         min: item.MinimumStok
@@ -310,157 +378,217 @@ const Dashboard = ({ master, logs }: { master: MasterBarang[], logs: LogTransaks
   }, [lowStockItems]);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 relative">
-      <div className="absolute -top-10 -right-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute top-1/2 left-0 w-48 h-48 bg-red-500/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
+      {/* Top Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
+         <div className="relative w-full lg:w-[450px]">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <input 
+               type="text" 
+               placeholder="Cari barang, transaksi, atau menu..." 
+               className="w-full pl-11 pr-4 py-2.5 bg-[#F1F5F9] border-transparent rounded-[10px] text-[13px] font-medium focus:bg-white focus:border-slate-300 focus:ring-2 focus:ring-slate-200 outline-none transition-all text-slate-700 placeholder:text-slate-400"
+            />
+         </div>
+         <div className="flex items-center justify-end gap-6 w-full lg:w-auto">
+            <button className="relative text-slate-500 hover:text-slate-700 transition-colors p-2 rounded-full hover:bg-slate-100">
+               <Bell size={22} />
+               <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#991B1B] rounded-full border-2 border-[#FAF9F9]"></span>
+            </button>
+            <div className="w-px h-8 bg-slate-200 hidden lg:block"></div>
+            <div className="flex items-center gap-3 cursor-pointer group">
+               <div className="text-right hidden sm:block">
+                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">Administrator</p>
+               </div>
+               <div className="w-9 h-9 rounded-full bg-[#E0E7FF] text-[#3730A3] font-bold flex items-center justify-center text-[13px] shrink-0">
+                  AD
+               </div>
+            </div>
+         </div>
+      </div>
 
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-600 to-red-600 rounded-2xl shadow-lg shadow-blue-500/20 text-white">
-            <LayoutDashboard size={24} />
-          </div>
-          <div>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Ringkasan Gudang</h2>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
-              <TrendingUp size={14} className="text-blue-500" /> Dashboard Real-time
-            </p>
+      {/* Title & Actions */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 className="text-[2rem] font-bold text-slate-900 tracking-tight leading-none mb-2">Ringkasan Gudang</h2>
+          <div className="flex items-center gap-2">
+             <div className="w-2 h-2 rounded-full bg-[#E53935]"></div>
+             <p className="text-[13px] font-medium text-slate-500">Dashboard real-time</p>
           </div>
         </div>
-      </header>
+        <button className="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-[10px] text-[13px] font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition-all">
+           <Calendar size={16} className="text-slate-500" />
+           <span>23 Mei 2025</span>
+           <ChevronDown size={14} className="text-slate-400 ml-2" />
+        </button>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-        <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:shadow-blue-500/5 transition-all relative">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-[60px] -mr-4 -mt-4 transition-all group-hover:scale-110"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between text-slate-400 mb-6">
-              <div className="p-3 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-200">
-                <Package size={20} />
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 relative">
+           <div className="flex justify-between items-start mb-6">
+              <div className="p-3 bg-[#FCE8E8] text-[#991B1B] rounded-[12px]">
+                 <Package size={20} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Total Varian</span>
-            </div>
-            <p className="text-4xl font-black text-slate-900 group-hover:translate-x-1 transition-transform">{totalValue}</p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Katalog Aktif</span>
-            </div>
-          </div>
+              <span className="text-[10px] font-bold text-[#991B1B] bg-white border border-[#FCE8E8] px-2.5 py-1 rounded-full">+2% vs lalu</span>
+           </div>
+           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Varian</p>
+           <h3 className="text-[2rem] font-bold text-slate-900 leading-none mb-3">{totalValue}</h3>
+           <p className="text-[12px] text-slate-500 font-medium">Katalog Aktif</p>
         </div>
 
-        <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:shadow-red-500/5 transition-all relative">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-[60px] -mr-4 -mt-4 transition-all group-hover:scale-110"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between text-slate-400 mb-6">
-              <div className="p-3 bg-red-600 text-white rounded-2xl shadow-lg shadow-red-200">
-                <AlertTriangle size={20} />
+        <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-red-50 relative">
+           <div className="flex justify-between items-start mb-6">
+              <div className="p-3 bg-[#FCE8E8] text-[#991B1B] rounded-[12px]">
+                 <AlertTriangle size={20} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Stok Kritis</span>
-            </div>
-            <p className="text-4xl font-black text-red-600 group-hover:translate-x-1 transition-transform">{lowStockItems.length}</p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Butuh Atensi</span>
-            </div>
-          </div>
+              <span className="text-[10px] font-bold text-[#991B1B] bg-[#FCE8E8] px-2.5 py-1 rounded-full">Update hari ini</span>
+           </div>
+           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Stok Kritis</p>
+           <h3 className="text-[2rem] font-bold text-[#991B1B] leading-none mb-3">{lowStockItems.length}</h3>
+           <p className="text-[12px] text-[#991B1B] font-medium">Butuh Atensi</p>
         </div>
 
-        <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:shadow-blue-500/5 transition-all relative">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50/50 rounded-bl-[60px] -mr-4 -mt-4 transition-all group-hover:scale-110"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between text-slate-400 mb-6">
-              <div className="p-3 bg-blue-500 text-white rounded-2xl shadow-lg shadow-blue-100">
-                <ArrowUpCircle size={20} />
+        <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 relative">
+           <div className="flex justify-between items-start mb-6">
+              <div className="p-3 bg-[#E0E7FF] text-[#3730A3] rounded-[12px]">
+                 <ArrowUpCircle size={20} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Mutasi Masuk</span>
-            </div>
-            <p className="text-4xl font-black text-slate-900 group-hover:translate-x-1 transition-transform">
-              {logs.filter(l => l.Tipe === 'Masuk').reduce((acc, curr) => acc + Number(curr.Jumlah), 0)}
-            </p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Bulan Ini</span>
-            </div>
-          </div>
+              <span className="text-[10px] font-bold text-[#3730A3] bg-[#E0E7FF] px-2.5 py-1 rounded-full">+12% vs lalu</span>
+           </div>
+           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mutasi Masuk</p>
+           <h3 className="text-[2rem] font-bold text-slate-900 leading-none mb-3">
+             {logs.filter(l => l.Tipe === 'Masuk').reduce((acc, curr) => acc + Number(curr.Jumlah), 0).toLocaleString()}
+           </h3>
+           <p className="text-[12px] text-slate-500 font-medium">Bulan Ini</p>
         </div>
 
-        <div className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 overflow-hidden group hover:shadow-xl hover:shadow-red-500/5 transition-all relative">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-red-50/50 rounded-bl-[60px] -mr-4 -mt-4 transition-all group-hover:scale-110"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between text-slate-400 mb-6">
-              <div className="p-3 bg-red-500 text-white rounded-2xl shadow-lg shadow-red-100">
-                <ArrowDownCircle size={20} />
+        <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 relative">
+           <div className="flex justify-between items-start mb-6">
+              <div className="p-3 bg-[#F1F5F9] text-slate-500 rounded-[12px]">
+                 <ArrowDownCircle size={20} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Mutasi Keluar</span>
-            </div>
-            <p className="text-4xl font-black text-slate-900 group-hover:translate-x-1 transition-transform">
-               {logs.filter(l => l.Tipe === 'Keluar').reduce((acc, curr) => acc + Number(curr.Jumlah), 0)}
-            </p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Bulan Ini</span>
-            </div>
-          </div>
+              <span className="text-[10px] font-bold text-slate-500 bg-[#F1F5F9] px-2.5 py-1 rounded-full">Stabil</span>
+           </div>
+           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mutasi Keluar</p>
+           <h3 className="text-[2rem] font-bold text-slate-900 leading-none mb-3">
+              {logs.filter(l => l.Tipe === 'Keluar').reduce((acc, curr) => acc + Number(curr.Jumlah), 0).toLocaleString()}
+           </h3>
+           <p className="text-[12px] text-slate-500 font-medium">Bulan Ini</p>
         </div>
       </div>
 
-      {/* Visual Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
-        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-slate-100 group">
-          <h3 className="font-black text-slate-900 mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-6 bg-blue-600 rounded-full"></div>
-              <span>Distribusi Katalog Barang</span>
-            </div>
-            <BarChart2 size={18} className="text-slate-300" />
-          </h3>
-          <div className="h-[300px] w-full">
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left Chart */}
+        <div className="bg-white p-6 lg:p-8 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col">
+          <div className="flex items-start justify-between mb-8">
+             <div className="flex items-center gap-3">
+                <div className="p-2 bg-[#FCE8E8] text-[#991B1B] rounded-[8px]">
+                   <BarChart2 size={16} />
+                </div>
+                <h3 className="font-bold text-slate-900 text-[1.1rem] leading-tight">Distribusi Katalog<br/>Barang</h3>
+             </div>
+             <div className="flex items-center gap-2">
+                <Info size={16} className="text-slate-300" />
+                <button className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 rounded-[8px] text-[11px] font-semibold text-slate-600 hover:bg-slate-50">
+                   Bulan Ini <ChevronDown size={14} />
+                </button>
+             </div>
+          </div>
+          
+          <div className="h-[250px] w-full flex-1">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={categoryChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <BarChart data={categoryChartData} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" fontSize={10} axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontWeight: 600}} dy={10} />
-                <YAxis fontSize={10} axisLine={false} tickLine={false} tick={{fill: '#94a3b8'}} />
+                <XAxis dataKey="name" fontSize={11} axisLine={true} stroke="#e2e8f0" tickLine={false} tick={{fill: '#64748b', fontWeight: 500}} dy={12} />
+                <YAxis fontSize={11} axisLine={false} tickLine={false} tick={{fill: '#94a3b8'}} />
                 <Tooltip 
                   cursor={{fill: '#f8fafc'}}
-                  contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
+                  contentStyle={{borderRadius: '10px', border: 'none', boxShadow: '0 4px 15px -3px rgb(0 0 0 / 0.1)'}}
                   formatter={(value) => [value, 'Jumlah Produk']}
                 />
-                <Bar dataKey="total" radius={[8, 8, 8, 8]} barSize={50}>
-                  <LabelList dataKey="total" position="top" style={{ fill: '#475569', fontSize: '12px', fontWeight: 'bold' }} />
+                <Bar dataKey="total" radius={[8, 8, 0, 0]} barSize={40}>
                   {categoryChartData.map((entry, index) => {
-                    let color = '#3b82f6'; // Default Blue
-                    if (entry.name === 'Alat Tulis') color = '#2563eb';
-                    if (entry.name === 'Kertas') color = '#3b82f6';
-                    if (entry.name === 'Arsip') color = '#60a5fa';
-                    if (entry.name === 'Lainnya') color = '#94a3b8';
-                    return <Cell key={`cell-${index}`} fill={color} />;
+                    const isMax = entry.total === Math.max(...categoryChartData.map(d => d.total));
+                    return <Cell key={`cell-${index}`} fill={isMax ? '#991B1B' : '#EADFE0'} />;
                   })}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-center text-[10px] font-bold text-slate-400 uppercase mt-4 tracking-widest">Informasi jumlah varian produk per kategori utama</p>
+
+          <div className="mt-8 bg-[#F8FAFC] rounded-[12px] p-4 flex gap-3 items-center">
+             <div className="text-[#3366FF] shrink-0">
+               <Info size={18} />
+             </div>
+             <p className="text-[11px] text-[#3366FF] font-medium leading-relaxed">Informasi jumlah varian produk per kategori utama yang terdaftar dalam katalog.</p>
+          </div>
         </div>
 
-        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
-          <h3 className="font-black text-slate-900 mb-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-6 bg-red-600 rounded-full"></div>
-              <span>Analisis Stok Kritis</span>
-            </div>
-            <AlertCircle size={18} className="text-red-300" />
-          </h3>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={criticalChartData} layout="vertical" margin={{ left: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-                <XAxis type="number" fontSize={10} axisLine={false} tickLine={false} />
-                <YAxis dataKey="name" type="category" fontSize={10} axisLine={false} tickLine={false} tick={{fill: '#64748b', fontWeight: 700}} width={80} />
-                <Tooltip 
-                  contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
-                  labelFormatter={(label, payload) => payload[0]?.payload?.fullTitle}
-                />
-                <Legend iconType="circle" wrapperStyle={{paddingTop: '20px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase'}} />
-                <Bar dataKey="current" name="Stok Fisik" fill="#ef4444" radius={[0, 4, 4, 0]} barSize={12} />
-                <Bar dataKey="min" name="Minimum" fill="#cbd5e1" radius={[0, 4, 4, 0]} barSize={12} />
-              </BarChart>
-            </ResponsiveContainer>
+        {/* Right Chart */}
+        <div className="bg-white p-6 lg:p-8 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col">
+          <div className="flex items-center justify-between mb-8">
+             <div className="flex items-center gap-3">
+                <div className="p-2 bg-[#FCE8E8] text-[#991B1B] rounded-[8px]">
+                   <TrendingUp size={16} />
+                </div>
+                <h3 className="font-bold text-slate-900 text-[1.1rem]">Analisis Stok Kritis</h3>
+             </div>
+             <div className="flex items-center gap-2">
+                <Info size={16} className="text-slate-300" />
+                <button className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 rounded-[8px] text-[11px] font-semibold text-slate-600 hover:bg-slate-50">
+                   Bulan Ini <ChevronDown size={14} />
+                </button>
+             </div>
           </div>
-          <p className="text-center text-[10px] font-bold text-red-500 uppercase mt-4 tracking-widest">{lowStockItems.length} barang berada di bawah batas minimum</p>
+          
+          <div className="h-full w-full flex-1">
+             <div className="flex flex-col justify-between h-full space-y-6">
+                {criticalChartData.map((item, index) => {
+                   const minVal = item.min > 0 ? item.min : 1;
+                   const percentage = Math.min((item.current / (minVal * 2)) * 100, 100);
+                   const minPercentage = Math.min((minVal / (minVal * 2)) * 100, 100);
+                   const isExactlyMinimum = item.current >= item.min && item.current !== 0;
+                   const barColor = isExactlyMinimum ? '#2563EB' : '#991B1B';
+                   const textColor = isExactlyMinimum ? '#2563EB' : '#991B1B';
+
+                   return (
+                     <div key={index} className="w-full">
+                        <div className="flex justify-between text-[11px] font-semibold mb-2">
+                           <span className="text-slate-700">{item.name}</span>
+                           <span><span style={{color: textColor}}>{item.current}</span> <span className="text-slate-400">/ {item.min}</span></span>
+                        </div>
+                        <div className="w-full h-[12px] bg-slate-50 rounded-full overflow-hidden relative border border-slate-100">
+                           <div className="absolute top-0 left-0 h-full bg-slate-200 rounded-full transition-all" style={{ width: `${minPercentage}%` }}></div>
+                           <div className="absolute top-0 left-0 h-full rounded-full transition-all" style={{ width: `${percentage}%`, backgroundColor: barColor }}></div>
+                        </div>
+                     </div>
+                   );
+                })}
+                {criticalChartData.length === 0 && (
+                   <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-medium">
+                      Tidak ada stok kritis saat ini.
+                   </div>
+                )}
+             </div>
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-6">
+             <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#991B1B]"></div>
+                <span className="text-[11px] font-bold text-slate-600">Stok Fisik</span>
+             </div>
+             <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-slate-200"></div>
+                <span className="text-[11px] font-bold text-slate-600">Minimum</span>
+             </div>
+          </div>
+
+          <div className="mt-6 bg-[#FCE8E8] rounded-[12px] p-4 flex gap-3 items-center border border-red-50">
+             <AlertTriangle size={18} className="text-[#991B1B] shrink-0" />
+             <p className="text-[11px] text-[#991B1B] font-bold">{lowStockItems.length} barang berada di bawah batas minimum</p>
+          </div>
         </div>
       </div>
     </div>
@@ -474,6 +602,10 @@ const MasterStok = ({ data, onRefresh }: { data: MasterBarang[], onRefresh: () =
   const [deletingItem, setDeletingItem] = useState<MasterBarang | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 7;
 
   const sortedData = useMemo(() => {
     return data
@@ -483,6 +615,34 @@ const MasterStok = ({ data, onRefresh }: { data: MasterBarang[], onRefresh: () =
       )
       .sort(numericSort);
   }, [data, searchTerm]);
+
+  // Handle Search Change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+     setSearchTerm(e.target.value);
+     setCurrentPage(1); // Reset to page 1 when searching
+  };
+
+  // Pagination calculations
+  const totalPages = Math.ceil(sortedData.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, sortedData.length);
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
+  const generatePaginationNumbers = () => {
+     const pages = [];
+     if (totalPages <= 5) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+     } else {
+        if (currentPage <= 3) {
+           pages.push(1, 2, 3, 4, '...', totalPages);
+        } else if (currentPage >= totalPages - 2) {
+           pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+           pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+        }
+     }
+     return pages;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -521,164 +681,319 @@ const MasterStok = ({ data, onRefresh }: { data: MasterBarang[], onRefresh: () =
     if (result.success) onRefresh();
   };
 
-  return (
-    <div className="space-y-8 animate-in fade-in duration-500 relative">
-      <div className="absolute -top-10 -right-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 -left-10 w-48 h-48 bg-red-500/5 rounded-full blur-3xl pointer-events-none"></div>
+  // Stat Card Calculations
+  const totalProduk = data.length;
+  const totalStok = data.reduce((acc, curr) => acc + curr.StokSaatIni, 0);
+  const stokKritis = data.filter(item => item.StokSaatIni <= item.MinimumStok).length;
+  const barangBaru = data.filter(item => {
+     // fallback 30 days check based on UpdateTerakhir if Date is valid
+     const updateDate = new Date(item.UpdateTerakhir).getTime();
+     const isWithin30Days = (Date.now() - updateDate) <= (30 * 24 * 60 * 60 * 1000);
+     return isWithin30Days;
+  }).length;
 
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-600 to-red-600 rounded-2xl shadow-lg shadow-blue-500/20 text-white">
-            <Layers size={24} />
+  return (
+    <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
+      {/* Top Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
+         <div className="flex items-center gap-4 w-full lg:w-[450px]">
+            <button onClick={onRefresh} className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all">
+               <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />
+            </button>
+            <div className="relative flex-1">
+               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+               <input 
+                  type="text" 
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Cari barang..." 
+                  className="w-full pl-11 pr-4 py-2.5 border border-slate-300 rounded-[10px] text-[13px] font-medium focus:border-slate-400 focus:ring-1 focus:ring-slate-300 outline-none transition-all text-slate-700 placeholder:text-slate-400"
+               />
+            </div>
+         </div>
+         <div className="flex items-center justify-end gap-6 w-full lg:w-auto">
+            <button className="relative text-slate-500 hover:text-slate-700 transition-colors p-2 rounded-full hover:bg-slate-100">
+               <Bell size={22} />
+               <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#991B1B] rounded-full border-2 border-[#FAF9F9]"></span>
+            </button>
+            <div className="w-px h-8 bg-slate-200 hidden lg:block"></div>
+            <div className="flex items-center gap-3 cursor-pointer group">
+               <div className="text-right hidden sm:block">
+                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">Administrator</p>
+               </div>
+               <div className="w-9 h-9 rounded-full bg-[#E0E7FF] text-[#3730A3] font-bold flex items-center justify-center text-[13px] shrink-0">
+                  AD
+               </div>
+            </div>
+         </div>
+      </div>
+
+      {/* Title Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-purple-100 text-purple-600 rounded-[14px]">
+             <Layers size={28} />
           </div>
           <div>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Database Stok</h2>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
-              <Package size={14} className="text-red-500" /> Katalog Barang Aktif
-            </p>
+            <h2 className="text-[2rem] font-bold text-[#1E293B] tracking-tight leading-none mb-2">Database Stok</h2>
+            <div className="flex items-center gap-2">
+               <div className="w-2 h-2 rounded-full bg-[#E53935]"></div>
+               <p className="text-[13px] font-medium text-slate-500">Katalog barang aktif</p>
+            </div>
           </div>
         </div>
+        <button 
+           onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
+           className="flex items-center gap-2 bg-[#E53935] text-white px-5 py-2.5 rounded-[10px] font-semibold text-[13px] hover:bg-red-700 transition-all shadow-sm active:scale-95"
+        >
+           <Plus size={16} />
+           Barang Baru
+        </button>
+      </div>
 
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={18} />
-            <input 
-              type="text" 
-              placeholder="Cari barang..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-11 pr-4 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-600 transition-all w-full md:w-64 shadow-sm"
-            />
-          </div>
-          <button 
-            onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
-            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-red-600 text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-widest text-xs hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-blue-500/10"
-          >
-            <Plus size={18} />
-            Barang Baru
-          </button>
-        </div>
-      </header>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+         {/* Total Produk */}
+         <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex items-center gap-5">
+            <div className="p-4 bg-orange-50 text-orange-500 rounded-[14px]">
+               <Box size={24} />
+            </div>
+            <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Produk</p>
+               <h3 className="text-2xl font-bold text-slate-800 leading-none mb-1">{totalProduk}</h3>
+               <p className="text-[11px] text-slate-500 font-medium">Barang Aktif</p>
+            </div>
+         </div>
+         {/* Total Stok */}
+         <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex items-center gap-5">
+            <div className="p-4 bg-red-50 text-red-500 rounded-[14px]">
+               <List size={24} />
+            </div>
+            <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Stok</p>
+               <h3 className="text-2xl font-bold text-slate-800 leading-none mb-1">{totalStok.toLocaleString()}</h3>
+               <p className="text-[11px] text-slate-500 font-medium">Total Seluruh Stok</p>
+            </div>
+         </div>
+         {/* Stok Kritis */}
+         <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex items-center gap-5">
+            <div className="p-4 bg-blue-50 text-blue-600 rounded-[14px]">
+               <ShieldCheck size={24} />
+            </div>
+            <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Stok Kritis</p>
+               <h3 className="text-2xl font-bold text-slate-800 leading-none mb-1">{stokKritis}</h3>
+               <p className="text-[11px] text-[#E53935] font-medium">Butuh Perhatian</p>
+            </div>
+         </div>
+         {/* Barang Baru */}
+         <div className="bg-white p-6 rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-100 flex items-center gap-5">
+            <div className="p-4 bg-pink-50 text-pink-500 rounded-[14px]">
+               <Clipboard size={24} />
+            </div>
+            <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Barang Baru</p>
+               <h3 className="text-2xl font-bold text-slate-800 leading-none mb-1">{barangBaru}</h3>
+               <p className="text-[11px] text-slate-500 font-medium">30 Hari Terakhir</p>
+            </div>
+         </div>
+      </div>
 
-      <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden relative z-10">
+      {/* Data Table */}
+      <div className="bg-white rounded-[20px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-slate-50/50 border-b border-slate-100">
+            <thead className="border-b border-slate-100">
               <tr>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">ID Barang</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nama Produk</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Stok Fisik</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Min. Stok</th>
-                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Aksi</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">ID Barang</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Nama Produk</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Kategori</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">Stok Fisik</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">Min. Stok</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">Status</th>
+                <th className="px-6 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
-              {sortedData.map((item) => (
-                <tr key={item.IDBarang} className="hover:bg-blue-50/20 transition-all group">
-                  <td className="px-8 py-5 text-sm font-black text-blue-600/60 uppercase tracking-tighter">#{item.IDBarang}</td>
-                  <td className="px-8 py-5">
-                    <p className="text-sm font-black text-slate-800">{item.NamaBarang}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5 tracking-tight">Update: {new Date(item.UpdateTerakhir).toLocaleDateString('id-ID')}</p>
+            <tbody className="divide-y divide-slate-100">
+              {paginatedData.map((item) => {
+                 const isCritical = item.StokSaatIni <= item.MinimumStok;
+                 return (
+                <tr key={item.IDBarang} className="hover:bg-slate-50/50 transition-colors group">
+                  <td className="px-6 py-5">
+                     <span className="text-[13px] font-bold text-blue-500">#{item.IDBarang}</span>
                   </td>
-                  <td className="px-8 py-5">
-                    <span className="inline-block whitespace-nowrap px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-bold uppercase tracking-tight group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <td className="px-6 py-5">
+                    <p className="text-[14px] font-bold text-slate-800 leading-tight">{item.NamaBarang}</p>
+                    <p className="text-[11px] font-medium text-slate-400 mt-1">Update: {new Date(item.UpdateTerakhir).toLocaleDateString('id-ID')}</p>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="inline-flex items-center justify-center px-3 py-1 bg-[#F1F5F9] text-slate-500 rounded-[6px] text-[11px] font-bold uppercase tracking-wide">
                       {item.Kategori}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-center">
+                  <td className="px-6 py-5 text-center">
                     <div className="flex flex-col items-center">
-                      <div className={`text-xl font-black ${item.StokSaatIni <= item.MinimumStok ? 'text-red-600' : 'text-blue-600'}`}>
-                        {item.StokSaatIni}
-                      </div>
-                      <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{item.Satuan}</span>
+                      <span className={`text-[18px] font-bold leading-none mb-1 ${isCritical ? 'text-[#E53935]' : 'text-[#1E293B]'}`}>
+                        {item.StokSaatIni.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase">{item.Satuan}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-sm font-bold text-slate-400">{item.MinimumStok}</td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-6 py-5 text-center">
+                     <span className="text-[14px] font-bold text-slate-600">{item.MinimumStok}</span>
+                  </td>
+                  <td className="px-6 py-5 text-center">
+                     {isCritical ? (
+                        <span className="inline-flex items-center justify-center px-3 py-1 bg-red-50 text-[#E53935] rounded-full text-[11px] font-bold">
+                           Kritis
+                        </span>
+                     ) : (
+                        <span className="inline-flex items-center justify-center px-3 py-1 bg-green-50 text-green-600 rounded-full text-[11px] font-bold">
+                           Aman
+                        </span>
+                     )}
+                  </td>
+                  <td className="px-6 py-5 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button 
                         onClick={() => { setEditingItem(item); setIsModalOpen(true); }}
-                        className="p-3 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                        className="w-8 h-8 rounded-full border border-blue-200 text-blue-500 flex items-center justify-center hover:bg-blue-50 transition-colors"
                       >
-                        <Edit2 size={16} />
+                        <Edit2 size={14} />
                       </button>
                       <button 
                         onClick={() => { setDeletingItem(item); setIsDeleteModalOpen(true); }}
-                        className="p-3 bg-red-50 text-red-600 rounded-2xl hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                        className="w-8 h-8 rounded-full border border-red-200 text-[#E53935] flex items-center justify-center hover:bg-red-50 transition-colors"
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </td>
                 </tr>
-              ))}
+              )})}
+              {paginatedData.length === 0 && (
+                 <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-400 text-sm font-medium">
+                       Tidak ada data produk yang ditemukan.
+                    </td>
+                 </tr>
+              )}
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Footer */}
+        {sortedData.length > 0 && (
+           <div className="px-6 py-5 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
+              <p className="text-[12px] font-medium text-slate-500">
+                 Menampilkan {startIndex + 1} – {endIndex} dari {sortedData.length} barang
+              </p>
+              <div className="flex items-center gap-1">
+                 <button 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="w-9 h-9 flex items-center justify-center rounded-[8px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                 >
+                    <ChevronLeft size={16} />
+                 </button>
+                 
+                 {generatePaginationNumbers().map((pageNum, idx) => (
+                    pageNum === '...' ? (
+                       <span key={`ellipsis-${idx}`} className="w-9 h-9 flex items-center justify-center text-slate-400 text-sm">...</span>
+                    ) : (
+                       <button
+                          key={`page-${pageNum}`}
+                          onClick={() => setCurrentPage(pageNum as number)}
+                          className={`w-9 h-9 flex items-center justify-center rounded-[8px] text-[13px] font-bold transition-all ${
+                             currentPage === pageNum 
+                             ? 'bg-[#E53935] text-white shadow-sm' 
+                             : 'text-slate-600 hover:bg-slate-100'
+                          }`}
+                       >
+                          {pageNum}
+                       </button>
+                    )
+                 ))}
+
+                 <button 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="w-9 h-9 flex items-center justify-center rounded-[8px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                 >
+                    <ChevronRight size={16} />
+                 </button>
+              </div>
+           </div>
+        )}
       </div>
 
+      {/* Input Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-[40px] w-full max-w-lg p-10 shadow-2xl animate-in zoom-in duration-300 border-t-[12px] border-blue-600 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50/50 rounded-bl-[100px] pointer-events-none"></div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-black text-slate-900 mb-8 uppercase tracking-tight flex items-center gap-3">
-                <div className="p-2 bg-blue-600 text-white rounded-xl">
-                   {editingItem ? <Edit2 size={20} /> : <Plus size={20} />}
-                </div>
-                {editingItem ? 'Edit Data Produk' : 'Input Produk Baru'}
-              </h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">ID Katalog</label>
-                    <input name="idBarang" defaultValue={editingItem?.IDBarang} required readOnly={!!editingItem} className={`w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 ${editingItem ? 'bg-slate-100 cursor-not-allowed' : 'bg-slate-50'}`} placeholder="Contoh: 1" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Kategori</label>
-                    <input name="kategori" defaultValue={editingItem?.Kategori} required className="w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 bg-slate-50" placeholder="Kertas/Alat Tulis" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Nama Lengkap Produk</label>
-                  <input name="namaBarang" defaultValue={editingItem?.NamaBarang} required className="w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 bg-slate-50" placeholder="Masukkan nama barang..." />
-                </div>
-                <div className="grid grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Stok Awal</label>
-                    <input type="number" name="stokSaatIni" defaultValue={editingItem?.StokSaatIni || 0} required className="w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 bg-slate-50" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Minimum</label>
-                    <input type="number" name="minimumStok" defaultValue={editingItem?.MinimumStok || 0} required className="w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 bg-slate-50" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Satuan</label>
-                    <input name="satuan" defaultValue={editingItem?.Satuan} required className="w-full px-5 py-4 border-2 border-slate-50 rounded-2xl focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-slate-700 bg-slate-50" placeholder="Pcs/Rim" />
-                  </div>
-                </div>
-                <div className="flex gap-4 pt-6">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 px-4 py-4 border-2 border-slate-100 rounded-2xl text-slate-400 font-black uppercase text-xs hover:bg-slate-50 transition-colors">Batal</button>
-                  <button type="submit" disabled={isLoading} className="flex-[2] px-4 py-4 bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:brightness-110 active:scale-[0.98] transition-all shadow-xl flex items-center justify-center gap-3">
-                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Box size={18} />}
-                    {editingItem ? 'Simpan Perubahan' : 'Tambahkan Barang'}
-                  </button>
-                </div>
-              </form>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-[24px] w-full max-w-lg p-8 shadow-2xl animate-in zoom-in duration-300">
+            <div className="flex items-center justify-between mb-8">
+               <h3 className="text-xl font-bold text-slate-800 flex items-center gap-3">
+                 <div className="p-2 bg-red-50 text-[#E53935] rounded-xl">
+                    {editingItem ? <Edit2 size={20} /> : <Plus size={20} />}
+                 </div>
+                 {editingItem ? 'Edit Produk' : 'Barang Baru'}
+               </h3>
+               <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                  <X size={20} />
+               </button>
             </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-2 gap-5">
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">ID Katalog</label>
+                  <input name="idBarang" defaultValue={editingItem?.IDBarang} required readOnly={!!editingItem} className={`w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 ${editingItem ? 'bg-slate-50 cursor-not-allowed' : 'bg-white'}`} placeholder="Contoh: 1" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">Kategori</label>
+                  <input name="kategori" defaultValue={editingItem?.Kategori} required className="w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 bg-white" placeholder="ATK / Kertas" />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">Nama Produk</label>
+                <input name="namaBarang" defaultValue={editingItem?.NamaBarang} required className="w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 bg-white" placeholder="Masukkan nama barang..." />
+              </div>
+              <div className="grid grid-cols-3 gap-5">
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">Stok Awal</label>
+                  <input type="number" name="stokSaatIni" defaultValue={editingItem?.StokSaatIni || 0} required className="w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 bg-white" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">Min. Stok</label>
+                  <input type="number" name="minimumStok" defaultValue={editingItem?.MinimumStok || 0} required className="w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 bg-white" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wide">Satuan</label>
+                  <input name="satuan" defaultValue={editingItem?.Satuan} required className="w-full px-4 py-3 border border-slate-200 rounded-[12px] focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] outline-none transition-all text-[13px] font-medium text-slate-700 bg-white" placeholder="Pcs/Rim" />
+                </div>
+              </div>
+              <div className="flex gap-3 pt-6 mt-2 border-t border-slate-100">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 px-4 py-3 border border-slate-200 rounded-[12px] text-slate-600 font-semibold text-[13px] hover:bg-slate-50 transition-colors">Batal</button>
+                <button type="submit" disabled={isLoading} className="flex-1 px-4 py-3 bg-[#E53935] text-white rounded-[12px] font-semibold text-[13px] hover:bg-red-700 transition-colors shadow-sm flex items-center justify-center gap-2">
+                  {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Box size={16} />}
+                  Simpan
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
 
-      <ConfirmationModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleConfirmDelete} isLoading={isLoading} title="Hapus Dari Katalog?" message={`Barang "${deletingItem?.NamaBarang}" akan dihapus permanen.`} />
+      <ConfirmationModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleConfirmDelete} isLoading={isLoading} title="Hapus Barang?" message={`Barang "${deletingItem?.NamaBarang}" akan dihapus permanen dari sistem.`} />
     </div>
   );
 };
 
 const TransaksiStok = ({ master, onRefresh }: { master: MasterBarang[], onRefresh: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [tipeMutasi, setTipeMutasi] = useState<'Masuk' | 'Keluar' | ''>('');
+  const [catatan, setCatatan] = useState('');
 
   // Mengurutkan master barang untuk dropdown
   const sortedMaster = useMemo(() => {
@@ -687,6 +1002,10 @@ const TransaksiStok = ({ master, onRefresh }: { master: MasterBarang[], onRefres
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!tipeMutasi) {
+      alert('Pilih tipe mutasi terlebih dahulu!');
+      return;
+    }
     setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     const idBarang = formData.get('idBarang');
@@ -695,61 +1014,174 @@ const TransaksiStok = ({ master, onRefresh }: { master: MasterBarang[], onRefres
       idTransaksi: `T${Date.now()}`,
       idBarang: idBarang,
       namaBarang: item?.NamaBarang || '',
-      tipe: formData.get('tipe'),
+      tipe: tipeMutasi,
       jumlah: Number(formData.get('jumlah')),
-      catatan: formData.get('catatan'),
+      catatan: catatan,
     };
     await sheetService.addLog(payload);
     setIsLoading(false);
     (e.target as HTMLFormElement).reset();
+    setTipeMutasi('');
+    setCatatan('');
     alert('Transaksi Berhasil!');
     onRefresh();
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Mutasi Persediaan</h2>
-        <p className="text-slate-500 font-medium">Input pergerakan barang masuk dan keluar.</p>
+    <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
+      {/* Top Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
+         <div className="flex items-center gap-4 w-full lg:w-[500px]">
+            <button className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
+               <ChevronLeft size={18} />
+            </button>
+            <div className="relative flex-1">
+               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+               <input 
+                  type="text" 
+                  placeholder="Cari barang, transaksi, atau menu..." 
+                  className="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-[12px] text-[13px] font-medium focus:border-slate-300 focus:ring-1 focus:ring-slate-200 outline-none transition-all text-slate-700 bg-white placeholder:text-slate-400"
+               />
+            </div>
+         </div>
+         <div className="flex items-center justify-end gap-4 w-full md:w-auto">
+            <div className="flex items-center gap-3 cursor-pointer group">
+               <div className="w-9 h-9 rounded-full bg-[#FCE8E8] text-[#E53935] font-bold flex items-center justify-center text-[13px] shrink-0">
+                  AD
+               </div>
+               <div className="text-left hidden sm:block">
+                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
+                  <p className="text-[10px] font-bold text-slate-400 mt-1">Administrator</p>
+               </div>
+               <ChevronDown size={16} className="text-slate-400 group-hover:text-slate-600 ml-2" />
+            </div>
+         </div>
       </div>
-      <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 border-t-8 border-red-600">
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div>
-            <label className="block text-[10px] font-black text-slate-400 uppercase mb-2.5 ml-1">Pilih Produk</label>
-            <select name="idBarang" required className="w-full p-4 border-2 border-slate-100 rounded-2xl bg-slate-50 outline-none focus:border-blue-500 transition-all font-bold text-slate-700 appearance-none">
-              <option value="">-- Cari Nama Barang --</option>
-              {sortedMaster.map(item => <option key={item.IDBarang} value={item.IDBarang}>#{item.IDBarang} - {item.NamaBarang} (Stok: {item.StokSaatIni} {item.Satuan})</option>)}
-            </select>
+
+      <div className="max-w-3xl mx-auto space-y-6">
+        {/* Header Card */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-14 h-14 rounded-full bg-[#FCE8E8] text-[#E53935] flex items-center justify-center shrink-0">
+            <ArrowLeftRight size={24} />
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase mb-2.5 ml-1">Tipe Mutasi</label>
-              <div className="grid grid-cols-2 gap-3">
-                <label className="relative flex items-center justify-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer has-[:checked]:bg-blue-600 has-[:checked]:border-blue-600 has-[:checked]:text-white hover:bg-slate-100 transition-all">
-                  <input type="radio" name="tipe" value="Masuk" required className="sr-only" />
-                  <span className="font-black uppercase text-xs">Masuk</span>
-                </label>
-                <label className="relative flex items-center justify-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer has-[:checked]:bg-red-600 has-[:checked]:border-red-600 has-[:checked]:text-white hover:bg-slate-100 transition-all">
-                  <input type="radio" name="tipe" value="Keluar" required className="sr-only" />
-                  <span className="font-black uppercase text-xs">Keluar</span>
-                </label>
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Mutasi Persediaan</h2>
+            <p className="text-[13px] text-slate-500 font-medium">Input pergerakan barang masuk dan keluar.</p>
+          </div>
+        </div>
+
+      {/* Form Container */}
+      <div className="bg-white p-8 lg:p-10 rounded-[24px] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          
+          {/* Pilih Produk */}
+          <div>
+            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2.5">Pilih Produk</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#E53935]">
+                <Search size={18} />
+              </div>
+              <select name="idBarang" required className="w-full pl-11 pr-11 py-3.5 border border-slate-200 rounded-[12px] bg-white outline-none focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] transition-all text-[14px] font-medium text-slate-700 appearance-none cursor-pointer">
+                <option value="">-- Cari Nama Barang --</option>
+                {sortedMaster.map(item => (
+                   <option key={item.IDBarang} value={item.IDBarang}>#{item.IDBarang} - {item.NamaBarang} (Stok: {item.StokSaatIni} {item.Satuan})</option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                <ChevronDown size={18} />
               </div>
             </div>
+            <p className="text-[11px] font-medium text-slate-400 mt-2">Pilih barang yang akan dimutasi.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Tipe Mutasi */}
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase mb-2.5 ml-1">Qty</label>
-              <input type="number" name="jumlah" min="1" required className="w-full p-4 border-2 border-slate-100 rounded-2xl bg-slate-50 outline-none focus:border-blue-500 transition-all font-bold text-slate-700" placeholder="0" />
+              <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2.5">Tipe Mutasi</label>
+              <div className="grid grid-cols-2 gap-4">
+                <label className={`relative flex items-center p-4 border rounded-[12px] cursor-pointer transition-all group ${tipeMutasi === 'Masuk' ? 'border-[#E53935] bg-red-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="tipe_dummy" value="Masuk" checked={tipeMutasi === 'Masuk'} onChange={() => setTipeMutasi('Masuk')} className="sr-only" />
+                  <div className={`mr-3 transition-colors ${tipeMutasi === 'Masuk' ? 'text-[#E53935]' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                     <ArrowDown size={20} />
+                  </div>
+                  <div>
+                     <p className={`font-bold text-[13px] uppercase tracking-wide leading-tight ${tipeMutasi === 'Masuk' ? 'text-[#E53935]' : 'text-slate-700'}`}>Masuk</p>
+                     <p className={`text-[10px] font-medium mt-0.5 ${tipeMutasi === 'Masuk' ? 'text-red-400' : 'text-slate-400'}`}>Barang masuk</p>
+                  </div>
+                </label>
+                
+                <label className={`relative flex items-center p-4 border rounded-[12px] cursor-pointer transition-all group ${tipeMutasi === 'Keluar' ? 'border-[#E53935] bg-red-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="tipe_dummy" value="Keluar" checked={tipeMutasi === 'Keluar'} onChange={() => setTipeMutasi('Keluar')} className="sr-only" />
+                  <div className={`mr-3 transition-colors ${tipeMutasi === 'Keluar' ? 'text-[#E53935]' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                     <Upload size={20} />
+                  </div>
+                  <div>
+                     <p className={`font-bold text-[13px] uppercase tracking-wide leading-tight ${tipeMutasi === 'Keluar' ? 'text-[#E53935]' : 'text-slate-700'}`}>Keluar</p>
+                     <p className={`text-[10px] font-medium mt-0.5 ${tipeMutasi === 'Keluar' ? 'text-red-400' : 'text-slate-400'}`}>Barang keluar</p>
+                  </div>
+                </label>
+              </div>
+              <p className="text-[11px] font-medium text-slate-400 mt-2">Pilih jenis pergerakan barang.</p>
+            </div>
+
+            {/* QTY (Jumlah) */}
+            <div>
+              <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2.5">Qty (Jumlah)</label>
+              <div className="relative flex">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#E53935]">
+                  <Box size={18} />
+                </div>
+                <input 
+                   type="number" 
+                   name="jumlah" 
+                   min="1" 
+                   required 
+                   className="w-full pl-11 pr-[60px] py-3.5 border border-slate-200 rounded-l-[12px] bg-white outline-none focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] transition-all text-[14px] font-bold text-slate-800" 
+                   placeholder="0" 
+                />
+                <div className="bg-slate-100 border border-slate-200 border-l-0 rounded-r-[12px] px-4 flex items-center justify-center">
+                   <span className="text-[11px] font-bold text-slate-500">PCS</span>
+                </div>
+              </div>
+              <p className="text-[11px] font-medium text-slate-400 mt-2">Masukkan jumlah barang.</p>
             </div>
           </div>
+
+          {/* Keterangan */}
           <div>
-            <label className="block text-[10px] font-black text-slate-400 uppercase mb-2.5 ml-1">Keterangan / PIC</label>
-            <textarea name="catatan" rows={3} className="w-full p-4 border-2 border-slate-100 rounded-2xl bg-slate-50 outline-none focus:border-blue-500 transition-all font-bold text-slate-700" placeholder="Tujuan atau asal barang..."></textarea>
+            <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2.5">Keterangan / PIC (Opsional)</label>
+            <div className="relative">
+              <div className="absolute top-4 left-4 pointer-events-none text-[#E53935]">
+                <FileText size={18} />
+              </div>
+              <textarea 
+                 name="catatan" 
+                 value={catatan}
+                 onChange={(e) => setCatatan(e.target.value)}
+                 rows={3} 
+                 maxLength={255}
+                 className="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-[12px] bg-white outline-none focus:border-[#E53935] focus:ring-1 focus:ring-[#E53935] transition-all text-[14px] font-medium text-slate-700 resize-none" 
+                 placeholder="Tujuan atau asal barang, keterangan tambahan, atau PIC..."
+              ></textarea>
+              <div className="absolute bottom-3 right-4 text-[10px] font-semibold text-slate-400">
+                {catatan.length} / 255
+              </div>
+            </div>
+            <p className="text-[11px] font-medium text-slate-400 mt-2">Berikan keterangan untuk memudahkan pelacakan transaksi.</p>
           </div>
-          <button type="submit" disabled={isLoading} className="w-full bg-slate-950 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-3">
-            {isLoading ? <Loader2 className="animate-spin" size={24} /> : <ArrowLeftRight size={24} />}
+
+          {/* Action Button */}
+          <button 
+             type="submit" 
+             disabled={isLoading} 
+             className="w-full bg-[#0F172A] text-white py-4 rounded-[12px] font-bold text-[13px] uppercase tracking-widest hover:bg-slate-800 transition-all disabled:opacity-70 flex items-center justify-center gap-3 mt-4 active:scale-[0.99] shadow-lg shadow-slate-900/10"
+          >
+            {isLoading ? <Loader2 className="animate-spin" size={20} /> : <ArrowLeftRight size={20} />}
             Validasi & Simpan
           </button>
         </form>
       </div>
+     </div>
     </div>
   );
 };
@@ -757,6 +1189,16 @@ const TransaksiStok = ({ master, onRefresh }: { master: MasterBarang[], onRefres
 const RiwayatTransaksi = ({ logs }: { logs: LogTransaksi[] }) => {
   const [filterStart, setFilterStart] = useState('');
   const [filterEnd, setFilterEnd] = useState('');
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 7;
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterStart, filterEnd]);
+
   const filteredLogs = useMemo(() => {
     let result = [...logs].reverse();
     if (filterStart) {
@@ -772,48 +1214,199 @@ const RiwayatTransaksi = ({ logs }: { logs: LogTransaksi[] }) => {
     return result;
   }, [logs, filterStart, filterEnd]);
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredLogs.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredLogs.length);
+  const paginatedLogs = filteredLogs.slice(startIndex, endIndex);
+
+  const generatePaginationNumbers = () => {
+     const pages = [];
+     if (totalPages <= 5) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+     } else {
+        if (currentPage <= 3) {
+           pages.push(1, 2, 3, 4, '...', totalPages);
+        } else if (currentPage >= totalPages - 2) {
+           pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+           pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+        }
+     }
+     return pages;
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
+      {/* Top Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
+         <div className="flex items-center gap-4 w-full lg:w-[500px]">
+            <button className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
+               <ChevronLeft size={18} />
+            </button>
+            <div className="relative flex-1">
+               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+               <input 
+                  type="text" 
+                  placeholder="Cari barang, transaksi, atau menu..." 
+                  className="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-[12px] text-[13px] font-medium focus:border-slate-300 focus:ring-1 focus:ring-slate-200 outline-none transition-all text-slate-700 bg-white placeholder:text-slate-400"
+               />
+            </div>
+         </div>
+         <div className="flex items-center justify-end gap-4 w-full md:w-auto">
+            <div className="flex items-center gap-3 cursor-pointer group">
+               <div className="w-9 h-9 rounded-full bg-[#FCE8E8] text-[#E53935] font-bold flex items-center justify-center text-[13px] shrink-0">
+                  AD
+               </div>
+               <div className="text-left hidden sm:block">
+                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
+                  <p className="text-[10px] font-bold text-slate-400 mt-1">Administrator</p>
+               </div>
+               <ChevronDown size={16} className="text-slate-400 group-hover:text-slate-600 ml-2" />
+            </div>
+         </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Jurnal Transaksi</h2>
-          <p className="text-slate-500 font-medium">Arsip digital mutasi stok barang.</p>
+          <h2 className="text-[2rem] font-bold text-[#1E293B] tracking-tight leading-none mb-2">Jurnal Transaksi</h2>
+          <p className="text-[13px] font-medium text-slate-500">Arsip digital mutasi stok barang.</p>
         </div>
-        <div className="flex flex-wrap items-end gap-3 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-          <input type="date" value={filterStart} onChange={(e) => setFilterStart(e.target.value)} className="px-4 py-2 border-2 border-slate-50 rounded-xl text-sm font-bold bg-slate-50 focus:border-blue-500 outline-none" />
-          <input type="date" value={filterEnd} onChange={(e) => setFilterEnd(e.target.value)} className="px-4 py-2 border-2 border-slate-50 rounded-xl text-sm font-bold bg-slate-50 focus:border-blue-500 outline-none" />
-          <button onClick={() => { setFilterStart(''); setFilterEnd(''); }} className="flex items-center gap-2 px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-black uppercase"><RotateCcw size={14} /> Reset</button>
+        
+        {/* Filter Card */}
+        <div className="flex items-center gap-3 bg-white p-2 rounded-[16px] shadow-[0_4px_10px_-4px_rgba(0,0,0,0.03)] border border-slate-200 w-fit">
+          <div className="flex items-center px-4 py-2 border border-slate-200 rounded-[12px] bg-white">
+            <Calendar size={16} className="text-slate-400 mr-2" />
+            <input 
+              type="date" 
+              value={filterStart} 
+              onChange={(e) => setFilterStart(e.target.value)} 
+              className="text-[13px] font-bold text-slate-700 bg-transparent outline-none uppercase" 
+            />
+          </div>
+          <span className="text-slate-300 font-bold">-</span>
+          <div className="flex items-center px-4 py-2 border border-slate-200 rounded-[12px] bg-white">
+            <Calendar size={16} className="text-slate-400 mr-2" />
+            <input 
+              type="date" 
+              value={filterEnd} 
+              onChange={(e) => setFilterEnd(e.target.value)} 
+              className="text-[13px] font-bold text-slate-700 bg-transparent outline-none uppercase" 
+            />
+          </div>
+          <button 
+             onClick={() => { setFilterStart(''); setFilterEnd(''); }} 
+             className="flex items-center gap-2 px-5 py-2.5 bg-red-50 hover:bg-red-100 text-[#E53935] rounded-[12px] text-[12px] font-bold uppercase transition-colors"
+          >
+             <RotateCcw size={14} /> Reset
+          </button>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+
+      {/* Table Card */}
+      <div className="bg-white rounded-[24px] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-slate-50 border-b border-slate-100">
+            <thead className="border-b border-slate-100">
               <tr>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Waktu</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Produk</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Aliran</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Qty</th>
-                <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Catatan</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Waktu</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Produk</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Aliran</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Qty</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Catatan</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
-              {filteredLogs.map((log, idx) => (
-                <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4 text-xs font-bold text-slate-400 whitespace-nowrap uppercase">{new Date(log.Waktu).toLocaleString('id-ID')}</td>
-                  <td className="px-6 py-4">
-                    <p className="text-sm font-black text-slate-900">{log.NamaBarang}</p>
-                    <p className="text-[10px] font-bold text-slate-400">REF: {log.IDTransaksi}</p>
+            <tbody className="divide-y divide-slate-100">
+              {paginatedLogs.map((log, idx) => {
+                 const logDate = new Date(log.Waktu);
+                 const dateStr = logDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'numeric', year: 'numeric' });
+                 const timeStr = logDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/:/g, '.');
+                 
+                 return (
+                <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
+                  <td className="px-8 py-6">
+                     <p className="text-[13px] font-bold text-slate-800">{dateStr}</p>
+                     <p className="text-[11px] font-medium text-slate-400 mt-1">{timeStr}</p>
                   </td>
-                  <td className="px-6 py-4"><span className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase ${log.Tipe === 'Masuk' ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'}`}>{log.Tipe}</span></td>
-                  <td className={`px-6 py-4 text-sm font-black text-center ${log.Tipe === 'Masuk' ? 'text-blue-600' : 'text-red-600'}`}>{log.Jumlah}</td>
-                  <td className="px-6 py-4 text-xs font-bold text-slate-500 max-w-xs truncate italic">"{log.Catatan}"</td>
+                  <td className="px-8 py-6">
+                    <p className="text-[14px] font-bold text-slate-800 leading-tight">{log.NamaBarang}</p>
+                    <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">REF: {log.IDTransaksi}</p>
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                    <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      log.Tipe === 'Masuk' ? 'bg-blue-50 text-blue-600' : 'bg-red-50 text-[#E53935]'
+                    }`}>
+                      {log.Tipe}
+                    </span>
+                  </td>
+                  <td className="px-8 py-6 text-center">
+                     <span className={`text-[16px] font-bold ${log.Tipe === 'Masuk' ? 'text-blue-600' : 'text-[#E53935]'}`}>
+                        {log.Jumlah}
+                     </span>
+                  </td>
+                  <td className="px-8 py-6">
+                     <p className="text-[13px] font-medium text-slate-500 italic">"{log.Catatan || '-'}"</p>
+                  </td>
                 </tr>
-              ))}
+              )})}
+              {paginatedLogs.length === 0 && (
+                 <tr>
+                    <td colSpan={5} className="px-8 py-16 text-center text-slate-400 text-sm font-medium">
+                       Tidak ada riwayat transaksi yang ditemukan.
+                    </td>
+                 </tr>
+              )}
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Footer */}
+        {filteredLogs.length > 0 && (
+           <div className="px-8 py-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50">
+              <p className="text-[12px] font-medium text-slate-500">
+                 Menampilkan {startIndex + 1} – {endIndex} dari {filteredLogs.length} barang
+              </p>
+              <div className="flex items-center gap-1">
+                 <button 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="w-9 h-9 flex items-center justify-center rounded-[8px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                 >
+                    <ChevronLeft size={16} />
+                 </button>
+                 
+                 {generatePaginationNumbers().map((pageNum, idx) => (
+                    pageNum === '...' ? (
+                       <span key={`ellipsis-${idx}`} className="w-9 h-9 flex items-center justify-center text-slate-400 text-sm">...</span>
+                    ) : (
+                       <button
+                          key={`page-${pageNum}`}
+                          onClick={() => setCurrentPage(pageNum as number)}
+                          className={`w-9 h-9 flex items-center justify-center rounded-[8px] text-[13px] font-bold transition-all ${
+                             currentPage === pageNum 
+                             ? 'bg-[#E53935] text-white shadow-sm' 
+                             : 'text-slate-600 hover:bg-slate-100'
+                          }`}
+                       >
+                          {pageNum}
+                       </button>
+                    )
+                 ))}
+
+                 <button 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="w-9 h-9 flex items-center justify-center rounded-[8px] text-slate-400 hover:text-slate-600 hover:bg-slate-100 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                 >
+                    <ChevronRight size={16} />
+                 </button>
+              </div>
+           </div>
+        )}
       </div>
+     </div>
     </div>
   );
 };
@@ -864,12 +1457,8 @@ const App = () => {
       <div className="min-h-screen flex flex-col lg:flex-row bg-slate-50 text-slate-900">
         <Sidebar isOpen={isSidebarOpen} toggle={() => setIsSidebarOpen(!isSidebarOpen)} onLogoutClick={() => setIsLogoutModalOpen(true)} />
         <main className="flex-1 lg:ml-64 transition-all">
-          <nav className="h-20 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md border-b sticky top-0 z-10">
-            <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden text-slate-500 p-2"><Menu size={24} /></button>
-            <div className="flex items-center gap-6">
-              <button onClick={fetchData} className="p-3 text-slate-400 hover:text-blue-600 transition-all"><Loader2 className={`${isLoading ? 'animate-spin' : ''}`} size={22} /></button>
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-red-600 p-[2px]"><div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center font-black">AD</div></div>
-            </div>
+          <nav className="h-16 flex items-center justify-between px-8 bg-transparent sticky top-0 z-10 lg:hidden">
+            <button onClick={() => setIsSidebarOpen(true)} className="text-slate-500 p-2"><Menu size={24} /></button>
           </nav>
           <div className="p-6 md:p-10 max-w-7xl mx-auto">
             {isLoading && masterData.length === 0 ? <div className="flex flex-col items-center justify-center h-[60vh]"><Loader2 size={40} className="text-blue-600 animate-spin" /><p className="mt-4 font-black uppercase text-xs">Loading...</p></div> : (
