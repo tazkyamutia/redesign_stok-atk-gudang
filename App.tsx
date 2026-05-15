@@ -237,59 +237,41 @@ const Sidebar = ({ isOpen, toggle, onLogoutClick }: { isOpen: boolean; toggle: (
 
   return (
     <>
-      <div 
-        className={`fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-sm transition-opacity lg:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} 
-        onClick={toggle} 
-      />
-      <div className={`fixed inset-y-0 left-0 z-30 w-[260px] bg-[#FAF9F9] border-r border-slate-200 transform transition-transform duration-300 lg:translate-x-0 flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center gap-3 px-6 py-8">
-            <div className="w-10 h-10 bg-[#FCE8E8] rounded-xl flex items-center justify-center shrink-0">
-               <img src={LOGO_URL} alt="Logo" className="w-6 h-6 object-contain" />
-            </div>
-            <div className="flex flex-col">
-               <h1 className="text-[1.1rem] font-bold tracking-tight text-[#991B1B] leading-none mb-1">GIAT</h1>
-               <span className="text-[10px] text-slate-500 font-medium leading-none">Warehouse Management</span>
-            </div>
-            <button onClick={toggle} className="lg:hidden ml-auto text-slate-400 hover:text-slate-600 transition-colors"><X size={20} /></button>
-          </div>
 
-          {/* Navigation */}
-          <nav className="px-4 space-y-2 flex-1 mt-2">
-            {menuItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => { if(window.innerWidth < 1024) toggle() }}
-                  className={`flex items-center space-x-3 px-4 py-3.5 rounded-[12px] transition-all duration-200 font-semibold text-[13px] ${
-                    isActive
-                      ? 'bg-[#FCE8E8] text-[#991B1B]' 
-                      : 'text-slate-500 hover:bg-slate-100/50 hover:text-slate-900'
-                  }`}
-                >
-                  <item.icon size={18} className={isActive ? "text-[#991B1B]" : "text-slate-400"} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Logout */}
-          <div className="p-4">
-            <div className="w-full h-px bg-slate-200 mb-4"></div>
-            <button 
-              onClick={onLogoutClick}
-              className="w-full flex items-center space-x-3 px-4 py-3 rounded-[12px] text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold text-[13px]"
-            >
-              <LogOut size={18} className="text-slate-400" />
-              <span>Keluar Akun</span>
-            </button>
+      <div className={`fixed inset-0 bg-slate-900/50 z-20 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={toggle}></div>
+      <aside className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-100 z-30 transition-transform duration-300 flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className="h-24 flex items-center px-8 border-b border-slate-50">
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-[12px] bg-[#E53935] flex items-center justify-center text-white shadow-sm">
+                <Box size={20} className="fill-white" />
+             </div>
+             <div>
+                <h1 className="text-[18px] font-black tracking-tight text-slate-800 leading-none">ATK<span className="text-[#E53935]">GIAT</span></h1>
+             </div>
           </div>
         </div>
-      </div>
+        <nav className="flex-1 py-8 px-4 space-y-2 overflow-y-auto">
+          {menuItems.map((item, index) => {
+             const isActive = location.pathname === item.path;
+             return (
+               <Link 
+                  key={index} 
+                  to={item.path} 
+                  onClick={() => window.innerWidth < 1024 && toggle()}
+                  className={`flex items-center gap-4 px-4 py-3.5 rounded-[12px] font-semibold text-[13px] transition-all duration-200 group ${isActive ? 'bg-[#FCE8E8] text-[#E53935]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
+               >
+                 <item.icon size={20} className={`transition-colors ${isActive ? 'text-[#E53935]' : 'text-slate-400 group-hover:text-slate-600'}`} />
+                 {item.label}
+               </Link>
+             )
+          })}
+        </nav>
+        <div className="p-4 border-t border-slate-100 bg-slate-50/50">
+          <button onClick={onLogoutClick} className="flex items-center gap-4 px-4 py-3.5 w-full rounded-[12px] text-slate-500 font-semibold text-[13px] hover:bg-white hover:text-slate-700 transition-all hover:shadow-sm">
+            <LogOut size={20} className="text-slate-400" /> Keluar Akun
+          </button>
+        </div>
+      </aside>
     </>
   );
 };
@@ -337,6 +319,45 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, isLoadi
 
 // --- PAGES ---
 
+const TopHeader = ({ onRefresh, showBack = false }: { onRefresh?: () => void, showBack?: boolean }) => {
+  return (
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
+       <div className="flex items-center gap-4 w-full lg:w-[500px]">
+          {showBack && (
+             <button className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
+                <ChevronLeft size={18} />
+             </button>
+          )}
+          {onRefresh && !showBack && (
+             <button onClick={onRefresh} className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
+                <RefreshCw size={18} />
+             </button>
+          )}
+          <div className="relative flex-1">
+             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+             <input 
+                type="text" 
+                placeholder="Cari barang, transaksi, atau menu..." 
+                className="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-[12px] text-[13px] font-medium focus:border-slate-300 focus:ring-1 focus:ring-slate-200 outline-none transition-all text-slate-700 bg-white placeholder:text-slate-400"
+             />
+          </div>
+       </div>
+       <div className="flex items-center justify-end gap-4 w-full md:w-auto">
+          <div className="flex items-center gap-3 cursor-pointer group">
+             <div className="w-9 h-9 rounded-full bg-[#FCE8E8] text-[#E53935] font-bold flex items-center justify-center text-[13px] shrink-0">
+                AD
+             </div>
+             <div className="text-left hidden sm:block">
+                <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
+                <p className="text-[10px] font-bold text-slate-400 mt-1">Administrator</p>
+             </div>
+             <ChevronDown size={16} className="text-slate-400 group-hover:text-slate-600 ml-2" />
+          </div>
+       </div>
+    </div>
+  );
+};
+
 const Dashboard = ({ master, logs }: { master: MasterBarang[], logs: LogTransaksi[] }) => {
   const lowStockItems = master.filter(item => item.StokSaatIni <= item.MinimumStok);
   const totalValue = master.length;
@@ -379,33 +400,7 @@ const Dashboard = ({ master, logs }: { master: MasterBarang[], logs: LogTransaks
 
   return (
     <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
-      {/* Top Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
-         <div className="relative w-full lg:w-[450px]">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input 
-               type="text" 
-               placeholder="Cari barang, transaksi, atau menu..." 
-               className="w-full pl-11 pr-4 py-2.5 bg-[#F1F5F9] border-transparent rounded-[10px] text-[13px] font-medium focus:bg-white focus:border-slate-300 focus:ring-2 focus:ring-slate-200 outline-none transition-all text-slate-700 placeholder:text-slate-400"
-            />
-         </div>
-         <div className="flex items-center justify-end gap-6 w-full lg:w-auto">
-            <button className="relative text-slate-500 hover:text-slate-700 transition-colors p-2 rounded-full hover:bg-slate-100">
-               <Bell size={22} />
-               <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#991B1B] rounded-full border-2 border-[#FAF9F9]"></span>
-            </button>
-            <div className="w-px h-8 bg-slate-200 hidden lg:block"></div>
-            <div className="flex items-center gap-3 cursor-pointer group">
-               <div className="text-right hidden sm:block">
-                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">Administrator</p>
-               </div>
-               <div className="w-9 h-9 rounded-full bg-[#E0E7FF] text-[#3730A3] font-bold flex items-center justify-center text-[13px] shrink-0">
-                  AD
-               </div>
-            </div>
-         </div>
-      </div>
+      <TopHeader />
 
       {/* Title & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -694,40 +689,7 @@ const MasterStok = ({ data, onRefresh }: { data: MasterBarang[], onRefresh: () =
 
   return (
     <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
-      {/* Top Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
-         <div className="flex items-center gap-4 w-full lg:w-[450px]">
-            <button onClick={onRefresh} className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all">
-               <RefreshCw size={20} className={isLoading ? "animate-spin" : ""} />
-            </button>
-            <div className="relative flex-1">
-               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-               <input 
-                  type="text" 
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  placeholder="Cari barang..." 
-                  className="w-full pl-11 pr-4 py-2.5 border border-slate-300 rounded-[10px] text-[13px] font-medium focus:border-slate-400 focus:ring-1 focus:ring-slate-300 outline-none transition-all text-slate-700 placeholder:text-slate-400"
-               />
-            </div>
-         </div>
-         <div className="flex items-center justify-end gap-6 w-full lg:w-auto">
-            <button className="relative text-slate-500 hover:text-slate-700 transition-colors p-2 rounded-full hover:bg-slate-100">
-               <Bell size={22} />
-               <span className="absolute top-2 right-2.5 w-2 h-2 bg-[#991B1B] rounded-full border-2 border-[#FAF9F9]"></span>
-            </button>
-            <div className="w-px h-8 bg-slate-200 hidden lg:block"></div>
-            <div className="flex items-center gap-3 cursor-pointer group">
-               <div className="text-right hidden sm:block">
-                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">Administrator</p>
-               </div>
-               <div className="w-9 h-9 rounded-full bg-[#E0E7FF] text-[#3730A3] font-bold flex items-center justify-center text-[13px] shrink-0">
-                  AD
-               </div>
-            </div>
-         </div>
-      </div>
+      <TopHeader onRefresh={onRefresh} />
 
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -1029,34 +991,7 @@ const TransaksiStok = ({ master, onRefresh }: { master: MasterBarang[], onRefres
 
   return (
     <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
-      {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
-         <div className="flex items-center gap-4 w-full lg:w-[500px]">
-            <button className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
-               <ChevronLeft size={18} />
-            </button>
-            <div className="relative flex-1">
-               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-               <input 
-                  type="text" 
-                  placeholder="Cari barang, transaksi, atau menu..." 
-                  className="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-[12px] text-[13px] font-medium focus:border-slate-300 focus:ring-1 focus:ring-slate-200 outline-none transition-all text-slate-700 bg-white placeholder:text-slate-400"
-               />
-            </div>
-         </div>
-         <div className="flex items-center justify-end gap-4 w-full md:w-auto">
-            <div className="flex items-center gap-3 cursor-pointer group">
-               <div className="w-9 h-9 rounded-full bg-[#FCE8E8] text-[#E53935] font-bold flex items-center justify-center text-[13px] shrink-0">
-                  AD
-               </div>
-               <div className="text-left hidden sm:block">
-                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
-                  <p className="text-[10px] font-bold text-slate-400 mt-1">Administrator</p>
-               </div>
-               <ChevronDown size={16} className="text-slate-400 group-hover:text-slate-600 ml-2" />
-            </div>
-         </div>
-      </div>
+      <TopHeader showBack={true} />
 
       <div className="max-w-3xl mx-auto space-y-6">
         {/* Header Card */}
@@ -1238,34 +1173,7 @@ const RiwayatTransaksi = ({ logs }: { logs: LogTransaksi[] }) => {
 
   return (
     <div className="w-full font-sans pb-10 px-4 lg:px-8 bg-[#FAF9F9]">
-      {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-200 pb-5 pt-5">
-         <div className="flex items-center gap-4 w-full lg:w-[500px]">
-            <button className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-[12px] bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors shrink-0">
-               <ChevronLeft size={18} />
-            </button>
-            <div className="relative flex-1">
-               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-               <input 
-                  type="text" 
-                  placeholder="Cari barang, transaksi, atau menu..." 
-                  className="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-[12px] text-[13px] font-medium focus:border-slate-300 focus:ring-1 focus:ring-slate-200 outline-none transition-all text-slate-700 bg-white placeholder:text-slate-400"
-               />
-            </div>
-         </div>
-         <div className="flex items-center justify-end gap-4 w-full md:w-auto">
-            <div className="flex items-center gap-3 cursor-pointer group">
-               <div className="w-9 h-9 rounded-full bg-[#FCE8E8] text-[#E53935] font-bold flex items-center justify-center text-[13px] shrink-0">
-                  AD
-               </div>
-               <div className="text-left hidden sm:block">
-                  <p className="text-[13px] font-bold text-slate-900 leading-none">Admin</p>
-                  <p className="text-[10px] font-bold text-slate-400 mt-1">Administrator</p>
-               </div>
-               <ChevronDown size={16} className="text-slate-400 group-hover:text-slate-600 ml-2" />
-            </div>
-         </div>
-      </div>
+      <TopHeader showBack={true} />
 
       <div className="space-y-6">
         {/* Header */}
